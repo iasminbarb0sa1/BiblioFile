@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiblioFile — Meu Diário de Leitura</title>
+
+  <!-- Bootstrap + Ícones -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonte personalizada -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #fafafa;
+      font-family: "Poppins", sans-serif;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      color: #2b2b2b;
+    }
+
+    .navbar-brand i {
+      color: #6c63ff;
+      margin-right: 6px;
+    }
+
+    .barra-pesquisa input {
+      border-radius: 20px;
+      width: 260px;
+      padding-left: 12px;
+    }
+
+    /* Painel lateral */
+    .painel-lateral {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .perfil-usuario {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .perfil-usuario h6 {
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .perfil-usuario p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .perfil-usuario .dados strong {
+      font-size: 18px;
+      display: block;
+      color: #000000;
+    }
+
+    /* Formulário */
+    .caixa-formulario {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .caixa-formulario input,
+    .caixa-formulario select,
+    .caixa-formulario textarea {
+      border-radius: 6px;
+    }
+
+    .caixa-formulario textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .btn-dark {
+      background-color: #000000;
+      border: none;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-dark:hover {
+      background-color: #000000;
+    }
+
+   
+    .lista-livros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card-livro {
+      width: 240px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .card-livro:hover {
+      transform: translateY(-3px);
+    }
+
+    .livro-capa {
+      background: #eee center / cover no-repeat;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .livro-info {
+      padding: 15px;
+    }
+
+    .livro-info h6 {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .livro-info p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .nota {
+      color: #ffb400;
+      font-weight: bold;
+    }
+
+    .livro-acoes {
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #eee;
+      padding: 10px;
+    }
+
+    .livro-acoes button {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: none;
+      font-size: 13px;
+      padding: 4px 8px;
+      transition: all 0.2s ease;
+    }
+
+    .livro-acoes button:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand" href="#">📓 BiblioFile</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Meus Livros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Comunidade</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Descobrir</a></li>
+        </ul>
+
+        <form class="d-flex me-3 barra-pesquisa">
+          <input class="form-control" type="search" placeholder="Buscar livros...">
+        </form>
+
+        <i class="bi bi-bell me-3 fs-5"></i>
+        <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="Perfil" width="32" height="32" class="rounded-circle">
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="painel-lateral">
+          <div class="perfil-usuario">
+            <img src="img/user-icon-on-transparent-background-free-png.webp" width="70" class="mb-2">
+            <h6>Maria Silva</h6>
+            <p>Explorando histórias, uma página por vez </p>
+            <div class="dados d-flex justify-content-around mt-3">
+              <div>
+                <strong>47</strong>
+                <small>Livros Lidos</small>
+              </div>
+              <div>
+                <strong>4.2</strong>
+                <small>Média</small>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h6>Filtros</h6>
+          <label class="form-label mt-2">Gênero</label>
+          <select class="form-select">
+            <option>Todos os gêneros</option>
+            <option>Fantasia</option>
+            <option>Romance</option>
+            <option>Ficção Científica</option>
+            <option>Suspense</option>
+          </select>
+
+          <label class="form-label mt-3">Nota mínima</label>
+          <select class="form-select mb-3">
+            <option>Todas</option>
+            <option>3+</option>
+            <option>4+</option>
+            <option>5</option>
+          </select>
+
+          <button class="btn btn-dark w-100">Aplicar Filtros</button>
+        </div>
+      </div>
+
+      <!-- Área principal -->
+      <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5>Meu Diário de Leitura</h5>
+          <button class="btn btn-dark"> Registrar Nova Leitura</button>
+        </div>
+
+        <!-- Formulário -->
+        <div class="caixa-formulario mb-4">
+          <h6 class="mb-3">Adicione um novo livro</h6>
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Título do Livro">
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Autor">
+              </div>
+              <div class="col-md-6">
+                <select class="form-select">
+                  <option>Selecione o gênero</option>
+                  <option>Fantasia</option>
+                  <option>Romance</option>
+                  <option>Ficção Científica</option>
+                  <option>Suspense</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <input type="number" class="form-control" placeholder="Total de Páginas">
+              </div>
+              <div class="col-md-6">
+                <input type="number" class="form-control" placeholder="Tempo de Leitura (horas)">
+              </div>
+              <div class="col-md-6">
+                <select class="form-select">
+                  <option>Nota (1–5)</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <textarea class="form-control" placeholder="Escreva aqui suas impressões sobre o livro..."></textarea>
+              </div>
+            </div>
+            <div class="text-end mt-3">
+              <button type="reset" class="btn btn-light border me-2">Cancelar</button>
+              <button type="submit" class="btn btn-dark">Salvar Leitura</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Livros -->
+        <div class="lista-livros">
+
+          <div class="card-livro">
+            <div class="livro-capa" style="background-image: url('');"></div>
+            <div class="livro-info">
+              <h6>O Senhor dos Anéis</h6>
+              <p>J.R.R. Tolkien</p>
+              <p>Fantasia</p>
+              <p>Páginas: 1216 | Tempo: 45h</p>
+              <p class="nota"> 5.0</p>
+            </div>
+            <div class="livro-acoes">
+              <button><i class="bi bi-heart"></i> Recomendar</button>
+              <button><i class="bi bi-chat"></i> Discutir</button>
+            </div>
+          </div>
+
+          <div class="card-livro">
+            <div class="livro-capa" style="background-image: url('https://m.media-amazon.com/images/I/81r5r5W7WKL._AC_UF1000,1000_QL80_.jpg');"></div>
+            <div class="livro-info">
+              <h6>Duna</h6>
+              <p>Frank Herbert</p>
+              <p>Ficção Científica</p>
+              <p>Páginas: 896 | Tempo: 32h</p>
+              <p class="nota">4.0</p>
+            </div>
+            <div class="livro-acoes">
+              <button><i class="bi bi-heart"></i> Recomendar</button>
+              <button><i class="bi bi-chat"></i> Discutir</button>
+            </div>
+          </div>
+
+          <div class="card-livro">
+            <div class="livro-capa" style="background-image: url('https://m.media-amazon.com/images/I/71W0ecT2b4L._AC_UF1000,1000_QL80_.jpg');"></div>
+            <div class="livro-info">
+              <h6>Orgulho e Preconceito</h6>
+              <p>Jane Austen</p>
+              <p>Romance</p>
+              <p>Páginas: 432 | Tempo: 18h</p>
+              <p class="nota"> 5.0</p>
+            </div>
+            <div class="livro-acoes">
+              <button><i class="bi bi-heart"></i> Recomendar</button>
+              <button><i class="bi bi-chat"></i> Discutir</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
