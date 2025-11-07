@@ -1,80 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BiblioFile — Diário de Leitura</title>
-
+  <title>BiblioFile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
 </head>
-
-<!-- ==== Formulário de Login ==== -->
-<main class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-      <div class="card p-4 shadow-sm">
-        <h3 class="text-center fw-bold mb-3">Entrar</h3>
-        <form id="formLogin">
-          <div class="mb-3">
-            <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha" required>
-          </div>
-
-          <button type="submit" class="btn btn-dark w-100">Entrar</button>
-
-          <div class="text-center mt-3">
-            <small class="text-muted">Não tem uma conta? <a href="#">Cadastre-se</a></small>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</main>
-
-
-
 <body>
-
-
+ 
   <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
     <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold fs-4 text-dark" href="#"> BiblioFile</a>
-
-      <div class="collapse navbar-collapse justify-content-center">
-        <ul class="navbar-nav gap-4">
-          <li class="nav-item"><a class="nav-link active fw-semibold" href="#">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Meus Livros</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Comunidade</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Recomendações</a></li>
-        </ul>
-      </div>
-
-      <div class="d-flex align-items-center gap-3">
-        <input type="text" class="form-control form-control-sm search-bar" placeholder="Buscar livros..." />
-        <img src="img/person-fill.svg" alt="Perfil" class="rounded-circle" width="40" height="40" />
-      </div>
+      <a class="navbar-brand fw-bold fs-4 text-dark" href="#">📚 BiblioFile</a>
     </div>
   </nav>
 
-
   <main class="container-fluid mt-5 px-5">
     <div class="row g-4">
-
+      
+      
       <aside class="col-lg-3">
-
         <div class="card perfil-card text-center p-4 mb-4 shadow-sm">
           <img src="img/person-fill.svg" class="rounded-circle mx-auto mb-3 border" width="100" alt="Perfil">
           <div class="card-body">
             <h5 id="nomeUsuario" class="card-title fw-bold">Oliver Juan</h5>
-            <p class="text-muted small mb-1">Finge que ler</p>
-
+            <p class="text-muted small mb-1">Leitor curioso</p>
             <div class="d-flex justify-content-around mt-3">
               <div>
                 <h4 id="livrosLidos">0</h4>
@@ -82,133 +31,175 @@
               </div>
               <div>
                 <h4 id="mediaNotas">0.0</h4>
-                <p class="small text-muted">Média</p>
+                <p class="small text-muted">Média de notas</p>
               </div>
             </div>
           </div>
         </div>
-
-
-
-
-        <div class="card p-4 shadow-sm filtro-card">
-          <h5 class="fw-bold mb-3">Filtros</h5>
-          <label class="form-label small mb-1">Genero</label>
-          <select class="form-select mb-3">
-            <option>Todos os generos</option>
-            <option>Fantasia</option>
-            <option>Romance</option>
-            <option>Ficção Científica</option>
-            <option>Terror</option>
-          </select>
-
-          <label class="form-label small mb-1">Nota</label>
-          <select class="form-select mb-3">
-            <option>Todas as notas</option>
-            <option>5</option>
-            <option>4</option>
-            <option>3</option>
-            <option>2</option>
-            <option>1</option>
-          </select>
-
-          <button class="btn btn-dark w-100">Aplicar Filtros</button>
-        </div>
       </aside>
 
-
+  
       <section class="col-lg-9">
-
         <div class="card p-4 shadow-sm mb-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold m-0">Meu Diário de Leitura</h4>
-            <button class="btn btn-dark btn-sm"> Registrar Leitura</button>
           </div>
 
           <form id="formLeitura" class="row g-3">
             <div class="col-md-6">
               <label class="form-label small">Título do Livro</label>
-              <input type="text" name="titulo" class="form-control" placeholder="Digite o título do livro" required>
+              <input type="text" name="titulo" class="form-control" required>
             </div>
+
             <div class="col-md-6">
               <label class="form-label small">Autor</label>
-              <input type="text" name="autor" class="form-control" placeholder="Nome do autor" required>
+              <input type="text" name="autor" class="form-control" required>
             </div>
 
             <div class="col-md-4">
               <label class="form-label small">Gênero</label>
-              <select name="genero" class="form-select">
-                <option value="">Selecione o gênero</option>
-                <option>Fantasia</option>
-                <option>Romance</option>
-                <option>Ficção Científica</option>
-                <option>Terror</option>
-              </select>
+              <input type="text" name="genero" class="form-control">
             </div>
 
             <div class="col-md-4">
-              <label class="form-label small">Total de Páginas</label>
-              <input type="number" name="paginas" class="form-control" placeholder="Ex: 350">
+              <label class="form-label small">Páginas</label>
+              <input type="number" name="paginas" class="form-control">
             </div>
 
             <div class="col-md-4">
-              <label class="form-label small">Sua Nota (1-5)</label>
+              <label class="form-label small">Nota</label>
               <select name="nota" class="form-select" required>
                 <option value="">Selecione</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
               </select>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label small">Tempo de Leitura (horas)</label>
-              <input type="number" name="tempo" class="form-control" placeholder="Ex: 15">
+              <label class="form-label small">Tempo de Leitura (h)</label>
+              <input type="number" name="tempoLeitura" class="form-control">
             </div>
 
             <div class="col-12">
-              <label class="form-label small">Resenha (opcional)</label>
-              <textarea name="resenha" class="form-control" rows="3"
-                placeholder="Compartilhe sua opinião sobre o livro..."></textarea>
+              <label class="form-label small">Resenha</label>
+              <textarea name="comentario" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="col-12 text-end mt-3">
               <button type="reset" class="btn btn-outline-secondary me-2">Cancelar</button>
-              <button type="submit" class="btn btn-dark">Registrar Leitura</button>
+              <button type="submit" class="btn btn-dark"> Registrar</button>
             </div>
           </form>
+
+          <div id="alerta" class="alert mt-3 d-none" role="alert"></div>
         </div>
 
-        <div id="listaLeituras" class="row g-4">
-
-        </div>
+        <div id="listaLeituras" class="row g-4"></div>
       </section>
     </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
-</body>
+  <script>
+    const form = document.getElementById("formLeitura");
+    const lista = document.getElementById("listaLeituras");
+    const livrosLidos = document.getElementById("livrosLidos");
+    const mediaNotas = document.getElementById("mediaNotas");
+    const alerta = document.getElementById("alerta");
 
-
-<script>
-  const formLogin = document.getElementById("formLogin");
-
-  formLogin.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    if (email === "teste@exemplo.com" && senha === "1234") {
-      alert("Login realizado com sucesso!");
-      window.location.href = "index.html";
-    } else {
-      alert("E-mail ou senha incorretos!");
+    function mostrarAlerta(msg, tipo="success") {
+      alerta.textContent = msg;
+      alerta.className = `alert alert-${tipo} mt-3`;
+      alerta.classList.remove("d-none");
+      setTimeout(() => alerta.classList.add("d-none"), 3000);
     }
-  });
-</script>
 
+    async function carregarLivros() {
+      lista.innerHTML = "<p> Carregando seus livros...</p>";
+      try {
+        const res = await fetch("http://localhost:3000/api/livros");
+        const livros = await res.json();
+        lista.innerHTML = "";
+
+        if (livros.length === 0) {
+          lista.innerHTML = "<p>Nenhum livro registrado ainda.</p>";
+          livrosLidos.textContent = "0";
+          mediaNotas.textContent = "0.0";
+          return;
+        }
+
+        let somaNotas = 0;
+        livros.forEach(livro => {
+          somaNotas += livro.nota || 0;
+          const card = document.createElement("div");
+          card.className = "col-md-6";
+          card.innerHTML = `
+            <div class="card shadow-sm p-3 h-100">
+              <h5>${livro.titulo}</h5>
+              <p class="text-muted mb-1">Autor: ${livro.autor}</p>
+              <p>Gênero: ${livro.genero || "-"}</p>
+              <p>Páginas: ${livro.paginas || "-"}</p>
+              <p>Tempo de leitura: ${livro.tempoLeitura || "-"}h</p>
+              <p>Nota:  ${livro.nota || "-"}</p>
+              <p>Resenha: ${livro.comentario || "-"}</p>
+              <button class="btn btn-outline-danger btn-sm mt-2" onclick="deletarLivro(${livro.id})">Excluir</button>
+            </div>
+          `;
+          lista.appendChild(card);
+        });
+
+        livrosLidos.textContent = livros.length;
+        mediaNotas.textContent = (somaNotas / livros.length).toFixed(1);
+
+      } catch (err) {
+        console.error(err);
+        lista.innerHTML = "<p class='text-danger'>Erro ao carregar livros.</p>";
+      }
+    }
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const btn = form.querySelector("button[type='submit']");
+      btn.disabled = true;
+      btn.textContent = "Salvando...";
+
+      const dados = Object.fromEntries(new FormData(form).entries());
+      dados.paginas = parseInt(dados.paginas) || null;
+      dados.nota = parseInt(dados.nota) || null;
+      dados.tempoLeitura = parseInt(dados.tempoLeitura) || null;
+
+      try {
+        const res = await fetch("http://localhost:3000/api/livros", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        if (!res.ok) throw new Error("Erro ao salvar livro");
+        form.reset();
+        mostrarAlerta("Livro registrado com sucesso!");
+        carregarLivros();
+      } catch(err) {
+        console.error(err);
+        mostrarAlerta("Erro ao registrar o livro.", "danger");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = " Registrar";
+      }
+    });
+
+    async function deletarLivro(id) {
+      if (!confirm("Deseja realmente excluir este livro?")) return;
+      try {
+        const res = await fetch(`http://localhost:3000/api/livros/${id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error("Erro ao excluir livro");
+        mostrarAlerta("Livro excluído com sucesso!", "warning");
+        carregarLivros();
+      } catch(err) {
+        console.error(err);
+        mostrarAlerta("Erro ao excluir livro.", "danger");
+      }
+    }
+
+    carregarLivros();
+  </script>
+</body>
 </html>
