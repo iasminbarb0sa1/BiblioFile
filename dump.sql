@@ -1,9 +1,9 @@
 
-CREATE DATABASE bibliofile;
+CREATE DATABASE  bibliofile;
 USE bibliofile;
 
 
-CREATE TABLE usuarios (
+CREATE TABLE  usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
@@ -15,13 +15,13 @@ CREATE TABLE usuarios (
 );
 
 
-CREATE TABLE generos (
+CREATE TABLE  generos (
     id_genero INT AUTO_INCREMENT PRIMARY KEY,
     nome_genero VARCHAR(100) NOT NULL
 );
 
 
-CREATE TABLE livros (
+CREATE TABLE  livros (
     id_livro INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(200) NOT NULL,
     autor VARCHAR(150) NOT NULL,
@@ -30,6 +30,7 @@ CREATE TABLE livros (
     capa_url VARCHAR(255),
     FOREIGN KEY (id_genero) REFERENCES generos(id_genero)
 );
+
 
 CREATE TABLE leituras (
     id_leitura INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,7 +44,7 @@ CREATE TABLE leituras (
 );
 
 
-CREATE TABLE interacoes (
+CREATE TABLE  interacoes (
     id_interacao INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_leitura INT NOT NULL,
@@ -54,28 +55,29 @@ CREATE TABLE interacoes (
 );
 
 
+
 INSERT INTO usuarios (nome, email, senha, media_notas, livros_lidos)
 VALUES ('Maria Silva', 'maria@bibliofile.com', '123456', 4.2, 47);
 
-
 INSERT INTO generos (nome_genero)
-VALUES ('Fantasia'), ('Ficção Científica'), ('Romance');
+VALUES ('Fantasia'), ('Ficção Científica'), ('Romance'), ('Terror'), ('Drama'), ('Outros');
 
 INSERT INTO livros (titulo, autor, id_genero, total_paginas)
 VALUES 
 ('O Senhor dos Anéis', 'J.R.R. Tolkien', 1, 1216),
 ('Duna', 'Frank Herbert', 2, 896),
 ('Orgulho e Preconceito', 'Jane Austen', 3, 432);
-
-
 INSERT INTO leituras (id_usuario, id_livro, tempo_leitura_horas, nota, resenha)
 VALUES
 (1, 1, 45, 5, 'Uma aventura épica e envolvente.'),
 (1, 2, 32, 4, 'Complexo e fascinante.'),
 (1, 3, 18, 5, 'Um clássico atemporal.');
 
+
 INSERT INTO interacoes (id_usuario, id_leitura, tipo, comentario)
 VALUES
 (1, 1, 'Recomendar', 'Leitura obrigatória!'),
 (1, 3, 'Discutir', 'Excelente história de amor.');
-
+ 
+ select * from generos;
+ 

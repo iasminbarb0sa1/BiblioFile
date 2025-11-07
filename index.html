@@ -6,8 +6,9 @@
   <title>BiblioFile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
+
 <body>
- 
+
   <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
     <div class="container-fluid px-4">
       <a class="navbar-brand fw-bold fs-4 text-dark" href="#">📚 BiblioFile</a>
@@ -16,11 +17,10 @@
 
   <main class="container-fluid mt-5 px-5">
     <div class="row g-4">
-      
-      
+   
       <aside class="col-lg-3">
         <div class="card perfil-card text-center p-4 mb-4 shadow-sm">
-          <img src="img/person-fill.svg" class="rounded-circle mx-auto mb-3 border" width="100" alt="Perfil">
+          <img src="img/user-icon-on-transparent-background-free-png.webp" class="rounded-circle mx-auto mb-3 border" width="100" alt="Perfil">
           <div class="card-body">
             <h5 id="nomeUsuario" class="card-title fw-bold">Oliver Juan</h5>
             <p class="text-muted small mb-1">Leitor curioso</p>
@@ -38,7 +38,7 @@
         </div>
       </aside>
 
-  
+      
       <section class="col-lg-9">
         <div class="card p-4 shadow-sm mb-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -58,7 +58,15 @@
 
             <div class="col-md-4">
               <label class="form-label small">Gênero</label>
-              <input type="text" name="genero" class="form-control">
+              <select name="genero" class="form-select">
+                <option value="">Selecione</option>
+                <option>Fantasia</option>
+                <option>Romance</option>
+                <option>Ficção Científica</option>
+                <option>Terror</option>
+                <option>Drama</option>
+                <option>Outro</option>
+              </select>
             </div>
 
             <div class="col-md-4">
@@ -100,106 +108,112 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const form = document.getElementById("formLeitura");
-    const lista = document.getElementById("listaLeituras");
-    const livrosLidos = document.getElementById("livrosLidos");
-    const mediaNotas = document.getElementById("mediaNotas");
-    const alerta = document.getElementById("alerta");
+const form = document.getElementById("formLeitura");
+const lista = document.getElementById("listaLeituras");
+const livrosLidos = document.getElementById("livrosLidos");
+const mediaNotas = document.getElementById("mediaNotas");
+const alerta = document.getElementById("alerta");
 
-    function mostrarAlerta(msg, tipo="success") {
-      alerta.textContent = msg;
-      alerta.className = `alert alert-${tipo} mt-3`;
-      alerta.classList.remove("d-none");
-      setTimeout(() => alerta.classList.add("d-none"), 3000);
+function mostrarAlerta(msg, tipo="success") {
+  alerta.textContent = msg;
+  alerta.className = `alert alert-${tipo} mt-3`;
+  alerta.classList.remove("d-none");
+  setTimeout(() => alerta.classList.add("d-none"), 3000);
+}
+
+async function carregarLivros() {
+  lista.innerHTML = "<p> Carregando seus livros...</p>";
+  try {
+    const res = await fetch("http://localhost:3000/api/livros");
+    const livros = await res.json();
+    lista.innerHTML = "";
+
+    if (livros.length === 0) {
+      lista.innerHTML = "<p>Nenhum livro registrado ainda.</p>";
+      livrosLidos.textContent = "0";
+      mediaNotas.textContent = "0.0";
+      return;
     }
 
-    async function carregarLivros() {
-      lista.innerHTML = "<p> Carregando seus livros...</p>";
-      try {
-        const res = await fetch("http://localhost:3000/api/livros");
-        const livros = await res.json();
-        lista.innerHTML = "";
+    let somaNotas = 0;
+    let qtdNotas = 0;
 
-        if (livros.length === 0) {
-          lista.innerHTML = "<p>Nenhum livro registrado ainda.</p>";
-          livrosLidos.textContent = "0";
-          mediaNotas.textContent = "0.0";
-          return;
-        }
+    livros.forEach(livro => {
+      const nota = livro.media_nota ? parseFloat(livro.media_nota) : 0;
+      if (nota) { somaNotas += nota; qtdNotas++; }
 
-        let somaNotas = 0;
-        livros.forEach(livro => {
-          somaNotas += livro.nota || 0;
-          const card = document.createElement("div");
-          card.className = "col-md-6";
-          card.innerHTML = `
-            <div class="card shadow-sm p-3 h-100">
-              <h5>${livro.titulo}</h5>
-              <p class="text-muted mb-1">Autor: ${livro.autor}</p>
-              <p>Gênero: ${livro.genero || "-"}</p>
-              <p>Páginas: ${livro.paginas || "-"}</p>
-              <p>Tempo de leitura: ${livro.tempoLeitura || "-"}h</p>
-              <p>Nota:  ${livro.nota || "-"}</p>
-              <p>Resenha: ${livro.comentario || "-"}</p>
-              <button class="btn btn-outline-danger btn-sm mt-2" onclick="deletarLivro(${livro.id})">Excluir</button>
-            </div>
-          `;
-          lista.appendChild(card);
-        });
-
-        livrosLidos.textContent = livros.length;
-        mediaNotas.textContent = (somaNotas / livros.length).toFixed(1);
-
-      } catch (err) {
-        console.error(err);
-        lista.innerHTML = "<p class='text-danger'>Erro ao carregar livros.</p>";
-      }
-    }
-
-    form.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const btn = form.querySelector("button[type='submit']");
-      btn.disabled = true;
-      btn.textContent = "Salvando...";
-
-      const dados = Object.fromEntries(new FormData(form).entries());
-      dados.paginas = parseInt(dados.paginas) || null;
-      dados.nota = parseInt(dados.nota) || null;
-      dados.tempoLeitura = parseInt(dados.tempoLeitura) || null;
-
-      try {
-        const res = await fetch("http://localhost:3000/api/livros", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dados)
-        });
-        if (!res.ok) throw new Error("Erro ao salvar livro");
-        form.reset();
-        mostrarAlerta("Livro registrado com sucesso!");
-        carregarLivros();
-      } catch(err) {
-        console.error(err);
-        mostrarAlerta("Erro ao registrar o livro.", "danger");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = " Registrar";
-      }
+      const card = document.createElement("div");
+      card.className = "col-md-6";
+      card.innerHTML = `
+        <div class="card shadow-sm p-3 h-100">
+          <h5>${livro.titulo}</h5>
+          <p class="text-muted mb-1">Autor: ${livro.autor}</p>
+          <p>Gênero: ${livro.genero || "-"}</p>
+          <p>Nota média:  ${nota || "-"}</p>
+          <p>Total horas lidas: ${livro.total_horas || 0}h</p>
+          <button class="btn btn-outline-danger btn-sm mt-2" onclick="deletarLivro(${livro.id_livro})">Excluir</button>
+        </div>
+      `;
+      lista.appendChild(card);
     });
 
-    async function deletarLivro(id) {
-      if (!confirm("Deseja realmente excluir este livro?")) return;
-      try {
-        const res = await fetch(`http://localhost:3000/api/livros/${id}`, { method: "DELETE" });
-        if (!res.ok) throw new Error("Erro ao excluir livro");
-        mostrarAlerta("Livro excluído com sucesso!", "warning");
-        carregarLivros();
-      } catch(err) {
-        console.error(err);
-        mostrarAlerta("Erro ao excluir livro.", "danger");
-      }
-    }
+    livrosLidos.textContent = livros.length;
+    mediaNotas.textContent = qtdNotas ? (somaNotas / qtdNotas).toFixed(1) : "0.0";
 
+  } catch (err) {
+    console.error(err);
+    lista.innerHTML = "<p class='text-danger'>Erro ao carregar livros.</p>";
+  }
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector("button[type='submit']");
+  btn.disabled = true;
+  btn.textContent = "Salvando...";
+
+  const dados = Object.fromEntries(new FormData(form).entries());
+  dados.paginas = parseInt(dados.paginas) || null;
+  dados.tempoLeitura = parseInt(dados.tempoLeitura) || null;
+  dados.nota = parseInt(dados.nota) || null;
+
+  try {
+    const res = await fetch("http://localhost:3000/api/livros", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados)
+    });
+    if (!res.ok) throw new Error("Erro ao salvar livro");
+
+    form.reset();
+    mostrarAlerta("Livro registrado com sucesso!");
     carregarLivros();
+  } catch (err) {
+    console.error(err);
+    mostrarAlerta("Erro ao registrar o livro.", "danger");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Registrar";
+  }
+});
+
+async function deletarLivro(id) {
+  if (!confirm("Deseja realmente excluir este livro?")) return;
+  try {
+    const res = await fetch(`/api/livros/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("Erro ao excluir livro");
+    mostrarAlerta("Livro excluído com sucesso!", "warning");
+    carregarLivros();
+  } catch (err) {
+    console.error(err);
+    mostrarAlerta("Erro ao excluir livro.", "danger");
+  }
+}
+
+carregarLivros();
+
   </script>
+  
+  
 </body>
 </html>
